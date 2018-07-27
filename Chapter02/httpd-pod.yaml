@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpd
+  namespace: default
+spec:
+  containers:
+  - name: httpd-container
+    image: httpd
+    ports:
+    - containerPort: 80
+

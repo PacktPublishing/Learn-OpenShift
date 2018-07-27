@@ -1,0 +1,50 @@
+$lab_script = <<SCRIPT
+cat <<EOF >> /etc/hosts
+172.24.0.11 openshift.example.com openshift
+172.24.0.12 storage.example.com storage
+EOF
+SCRIPT
+
+$lab_openshift = <<SCRIPT
+systemctl disable firewalld
+systemctl stop firewalld
+yum install -y epel-release git
+yum install -y docker
+cat << EOF >/etc/docker/daemon.json
+{
+ "insecure-registries": [
+ "172.30.0.0/16"
+ ]
+}
+EOF
+systemctl start docker
+systemctl enable docker
+yum -y install centos-release-openshift-origin39
+yum -y install origin-clients
+oc cluster up
+SCRIPT
+
+Vagrant.configure(2) do |config|
+ config.vm.define "openshift" do |conf|
+ conf.vm.box = "centos/7"
+ conf.vm.hostname = 'openshift.example.com'
+ conf.vm.network "private_network", ip: "172.24.0.11"
+ conf.vm.provider "virtualbox" do |v|
+ v.memory = 4096
+ v.cpus = 2
+ end
+ conf.vm.provision "shell", inline: $lab_script
+ conf.vm.provision "shell", inline: $lab_openshift
+ end
+
+ config.vm.define "storage" do |conf|
+ conf.vm.box = "centos/7"
+ conf.vm.hostname = 'storage.example.com'
+ conf.vm.network "private_network", ip: "172.24.0.12"
+ conf.vm.provider "virtualbox" do |v|
+ v.memory = 2048
+ v.cpus = 1
+ end
+ conf.vm.provision "shell", inline: $lab_script
+ end
+end

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Template 
+metadata:
+  name: template1
+objects: 
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    name: app1
+  spec:
+    containers:
+    - env:
+      - name: SHOW_DATA
+        value: ${SHOW_DATA} 
+      image: example/appimage
+      name: app1
+      ports:
+      - containerPort: 8080
+        protocol: TCP
+parameters: 
+- description: Myapp configuration data
+  name: SHOW_DATA
+  required: true
+labels: 
+  mylabel: app1

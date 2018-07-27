@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpd
+  labels:
+    role: web
+spec:
+  containers:
+  - name: httpd
+    image: httpd
+    resources:
+      requests:
+        cpu: 400m
+        memory: 128Mi

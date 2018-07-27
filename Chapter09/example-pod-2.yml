@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example2
+spec:
+  containers:
+    - name: example2
+      image: cirros
+      command: ["/bin/sh", "-c", "echo ${VAR_1} ${VAR_2}"]
+      envFrom:
+        - configMapRef:
+            name: example-config-map

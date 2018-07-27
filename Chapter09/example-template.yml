@@ -1,0 +1,38 @@
+kind: Template
+apiVersion: v1
+metadata:
+  name: example-template
+labels:
+  role: web
+message: You chose to deploy ${WEB_SERVER}
+objects:
+  - kind: Pod
+    apiVersion: v1
+    metadata:
+      name: example-pod
+    spec:
+      containers:
+        - name: ${WEB_SERVER}
+          image: ${WEB_SERVER}
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: example-svc
+    spec:
+      ports:
+        - port: 80
+      selector:
+        role: web
+  - kind: Route
+    apiVersion: v1
+    metadata:
+      name: example-route
+    spec:
+      to:
+        kind: Service
+        name: example-svc
+parameters:
+  - name: WEB_SERVER
+    displayName: Web Server
+    description: Web server image to use
+    value: nginx

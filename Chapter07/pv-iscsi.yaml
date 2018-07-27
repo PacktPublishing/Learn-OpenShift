@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-iscsi
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  iscsi:
+     targetPortal: storage.example.com
+     iqn: iqn.2018-04.com.example.storage:disk1
+     lun: 0
+     fsType: 'ext4'
+     readOnly: false

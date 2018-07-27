@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfsvol1
+spec:
+  capacity:
+    storage: 2Gi 
+  accessModes:
+    - ReadWriteMany 
+  persistentVolumeReclaimPolicy: Retain 
+  nfs: 
+    path: /exports/nfsvol1
+    server: storage.example.com
+    readOnly: false

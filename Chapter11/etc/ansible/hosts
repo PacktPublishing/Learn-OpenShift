@@ -1,0 +1,24 @@
+[masters]
+172.24.0.11
+
+[nodes]
+172.24.0.11 openshift_node_labels="{'region': 'us', 'zone': 'default'}" openshift_ip=172.24.0.11 openshift_master_cluster_hostname=172.24.0.11 openshift_hostname=172.24.0.11
+172.24.0.12 openshift_node_labels="{'region': 'infra', 'zone': 'east'}" openshift_ip=172.24.0.12 openshift_master_cluster_hostname=172.24.0.12 openshift_hostname=172.24.0.12
+172.24.0.13 openshift_node_labels="{'region': 'us', 'zone': 'west'}" openshift_ip=172.24.0.13 openshift_master_cluster_hostname=172.24.0.13 openshift_hostname=172.24.0.13
+
+[etcd]
+172.24.0.11
+
+[OSEv3:vars]
+openshift_deployment_type=origin
+openshift_disable_check=memory_availability,disk_availability
+ansible_service_broker_install=false
+openshift_master_cluster_public_hostname=openshift.example.com
+openshift_public_hostname=openshift.example.com
+openshift_master_default_subdomain=openshift.example.com
+openshift_schedulable=true
+
+[OSEv3:children]
+masters
+nodes
+etcd

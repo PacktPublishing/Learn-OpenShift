@@ -1,0 +1,16 @@
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v1
+metadata:
+  name: hpa-httpd-memory
+spec:
+  scaleTargetRef:
+    apiVersion: v1
+    kind: DeploymentConfig
+    name: httpd
+  minReplicas: 2
+  maxReplicas: 4
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      targetAverageUtilization: 10

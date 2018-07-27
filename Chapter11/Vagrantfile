@@ -1,0 +1,68 @@
+$common_provision = <<SCRIPT
+cat <<EOF >> /etc/hosts
+172.24.0.11 openshift-master.example.com openshift-master
+172.24.0.12 openshift-node-1.example.com openshift-node-1
+172.24.0.13 openshift-node-2.example.com openshift-node-2
+EOF
+sed -i '/^127.0.0.1.*openshift.*$/d' /etc/hosts
+yum -y update
+yum install -y docker
+systemctl start docker
+systemctl enable docker
+SCRIPT
+
+$master_provision = <<SCRIPT
+yum -y install git epel-release
+yum -y install ansible
+git clone -b release-3.9 https://github.com/openshift/openshift-ansible /root/openshift-ansible
+ssh-keygen -f /root/.ssh/id_rsa -N ''
+cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+for i in 1 2 3; do ssh-keyscan 172.24.0.1$i; done >> .ssh/known_hosts
+cp .ssh/known_hosts /root/.ssh/known_hosts
+for i in 1 2; do sudo ssh-copy-id -o IdentityFile=/vagrant_private_keys/machines/openshift-node-$i/virtualbox/private_key -f -i /root/.ssh/id_rsa root@172.24.0.1$((i+1)); done
+reboot
+SCRIPT
+
+$node_provision = <<SCRIPT
+cp -r /home/vagrant/.ssh /root
+reboot
+SCRIPT
+
+Vagrant.configure(2) do |config|
+  config.vm.define "openshift-node-1" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'openshift-node-1.example.com'
+    conf.vm.network "private_network", ip: "172.24.0.12"
+    conf.vm.provider "virtualbox" do |v|
+       v.memory = 2048
+       v.cpus = 2
+    end
+    conf.vm.provision "shell", inline: $common_provision
+    conf.vm.provision "shell", inline: $node_provision
+  end
+
+  config.vm.define "openshift-node-2" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'openshift-node-2.example.com'
+    conf.vm.network "private_network", ip: "172.24.0.13"
+    conf.vm.provider "virtualbox" do |v|
+       v.memory = 2048
+       v.cpus = 2
+    end
+    conf.vm.provision "shell", inline: $common_provision
+    conf.vm.provision "shell", inline: $node_provision
+  end
+
+  config.vm.define "openshift-master" do |conf|
+    conf.vm.box = "centos/7"
+    conf.vm.hostname = 'openshift-master.example.com'
+    conf.vm.network "private_network", ip: "172.24.0.11"
+    conf.vm.synced_folder '.vagrant/', '/vagrant_private_keys', type: 'rsync'
+    conf.vm.provider "virtualbox" do |v|
+       v.memory = 4096
+       v.cpus = 2
+    end
+    conf.vm.provision "shell", inline: $common_provision
+    conf.vm.provision "shell", inline: $master_provision
+  end
+end

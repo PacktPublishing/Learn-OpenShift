@@ -1,0 +1,5 @@
+FROM centos:latest
+RUN yum -y update
+RUN yum -y install nginx, mariadb, php5, php5-mysql
+RUN yum -y install httpd
+CMD ["nginx", "-g", "daemon off;"]

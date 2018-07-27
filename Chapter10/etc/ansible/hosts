@@ -1,0 +1,24 @@
+[masters]
+172.24.0.11
+
+[nodes]
+172.24.0.11 openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
+
+[etcd]
+172.24.0.11
+
+[OSEv3:vars]
+openshift_deployment_type=origin
+openshift_disable_check=memory_availability,disk_availability
+openshift_ip=172.24.0.11
+ansible_service_broker_install=false
+openshift_master_cluster_hostname=172.24.0.11
+openshift_master_cluster_public_hostname=172.24.0.11
+openshift_hostname=172.24.0.11
+openshift_public_hostname=172.24.0.11
+openshift_master_identity_providers=[{'name': 'LDAP', 'challenge': 'true', 'login': 'true', 'kind': 'LDAPPasswordIdentityProvider', 'mappingMethod': 'claim', 'attributes': {'id': ['dn'], 'email': ['mail'], 'name': ['cn'], 'preferredUsername': ['uid']}, 'insecure': 'true', 'bindDN': 'uid=admin,cn=users,cn=accounts,dc=idm,dc=example,dc=com', 'bindPassword': 'idmsecret', 'url': 'ldap://idm.example.com/cn=users,cn=accounts,dc=idm,dc=example,dc=com?uid'}, {'name': 'PASSWORD_FILE', 'challenge': 'true', 'login': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'mappingMethod': 'claim', 'filename': '/etc/origin/master/.users'}]
+
+[OSEv3:children]
+masters
+nodes
+etcd

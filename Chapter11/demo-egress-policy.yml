@@ -1,0 +1,9 @@
+kind: EgressNetworkPolicy
+apiVersion: v1
+metadata:
+  name: demo-egress-policy
+spec:
+  egress:
+  - type: Deny
+    to:
+      dnsName: github.com

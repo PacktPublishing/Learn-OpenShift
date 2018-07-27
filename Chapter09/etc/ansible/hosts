@@ -1,0 +1,26 @@
+[masters]
+172.24.0.11
+
+[nodes]
+172.24.0.11 openshift_node_labels="{'region': 'infra', 'zone': 'default'}" openshift_schedulable=true
+
+[etcd]
+172.24.0.11
+
+[OSEv3:vars]
+openshift_deployment_type=origin
+openshift_disable_check=memory_availability,disk_availability
+openshift_ip=172.24.0.11
+ansible_service_broker_install=false
+openshift_master_cluster_hostname=172.24.0.11
+openshift_master_cluster_public_hostname=openshift.example.com
+openshift_hostname=172.24.0.11
+openshift_public_hostname=openshift.example.com
+openshift_metrics_install_metrics=true
+openshift_metrics_image_version=v3.9
+openshift_master_default_subdomain=openshift.example.com
+
+[OSEv3:children]
+masters
+nodes
+etcd
