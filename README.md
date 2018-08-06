@@ -61,3 +61,7 @@ is a worldwide IT expert and international consultant with more than 15 years' e
 
 **Aleksey Usov**
 has been working in the IT industry for more than 8 years, including in the position of infrastructure architect on projects of a national scale. He is also an expert in Linux with experience encompassing various cloud and automation technologies, including OpenShift, Kubernetes, OpenStack, and Puppet. At the time of writing, he holds the highest Red Hat certification level in CIS and Russia – RHCA Level XIV.
+
+### Suggestions and Feedback
+[Click here](https://docs.google.com/forms/d/e/1FAIpQLSdy7dATC6QmEL81FIUuymZ0Wy9vH1jHkvpY57OiMeKGqib_Ow/viewform) if you have any feedback or suggestions.
+
