@@ -4,7 +4,7 @@
 
 This is the code repository for [Learn OpenShift](https://www.packtpub.com/application-development/learn-openshift?utm_source=github&utm_medium=repository&utm_campaign=9781788992329), published by Packt.
 
-**Get hands-on experience managing containers using OpenShift Container Platform 3.8**
+**Get hands-on experience managing containers using OpenShift Container Platform 3.9**
 
 ## What is this book about?
 Docker containers transform application delivery technologies to make them more fast, reproducible and reduce time wasted on configuration. Managing Docker containers in the multi-node or multi-datacenter environment is a big challenge that’s why container management platforms are required. Kubernetes is one of the container management platforms which has been very popular since 2015. Openshift a new generation of container management platform which is built on top of Kubernetes and brings additional functionality to the table which Kubernetes is missing. This new functionality significantly helps software development teams to bring software development process to the whole new level.
