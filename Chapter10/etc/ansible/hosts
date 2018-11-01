@@ -8,6 +8,7 @@
 172.24.0.11
 
 [OSEv3:vars]
+openshift_release=3.9
 openshift_deployment_type=origin
 openshift_disable_check=memory_availability,disk_availability
 openshift_ip=172.24.0.11
